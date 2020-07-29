@@ -43,16 +43,21 @@ Game.Screen.playScreen = {
       generator.create(function(x,y,v) {
         if ( v === 1) {
           map[x][y] = Game.Tile.floorTile;
+          console.log("Creating floorTile")
         } else {
           map[x][y] = Game.Tile.wallTile;
+          console.log("Creating wallTile")
         }
       });
       // Create our map from the tiles
       this._map = new Game.Map(map);
+      }
+
     },
     exit: function() { console.log("Exited play screen."); },
     render: function(display) {
         // Iterate through all map cells
+        console.log("Starting to render map")
         for (var x = 0; x < this._map.getWidth(); x++) {
           console.log("Iterated through x cells");
           for (var y = 0; y < this._map.getHeight(); y++) {
