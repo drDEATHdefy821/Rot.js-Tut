@@ -52,14 +52,14 @@ Game.Screen.playScreen = {
 
       var randWallTile =
       [Game.Tile.wallTile1, Game.Tile.wallTile2, Game.Tile.wallTile3];
-      var wallTileX =
-      randWallTile[Math.floor(Math.random() * randWallTile.lenght)];
+      //var wallTileX =
+      //randWallTile[Math.floor(Math.random() * randWallTile.length)];
 
       generator.connect(function(x,y,v) {
         if ( v === 1) {
           map[x][y] = Game.Tile.floorTile;
         } else {
-          map[x][y] = randWallTile;
+          map[x][y] = randWallTile[Math.floor(Math.random() * randWallTile.length)];
         }
       }, 1);
       // Create our map from the tiles
