@@ -22,8 +22,7 @@ Game.Screen.startScreen = {
 // Define our play screen
 Game.Screen.playScreen = {
     _map: null,
-    _centerX: 0,
-    _centerY: 0,
+    _player: null,
     enter: function() {
       var map = [];
       // Create a map based on our size parameters
@@ -64,6 +63,12 @@ Game.Screen.playScreen = {
       }, 1);
       // Create our map from the tiles
       this._map = new Game.Map(map);
+      // Create our player and set position
+      this._player = new Game.Entity(Game.PlayerTemplate);
+      var position = this._map.getRandomFloorPosition();
+      this._player.setX(position.x);
+      this._player.setY(position.y);
+      console.log("Generated map")
     },
     exit: function() { console.log("Exited play screen."); },
     render: function(display) {
@@ -82,22 +87,23 @@ Game.Screen.playScreen = {
           for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
             // Fetch the glyph for the tile and render it to the screen
             // at the offset position.
-            var glyph = this._map.getTile(x, y).getGlyph();
+            var glyph = this._map.getTile(x, y);
             display.draw(
               x - topLeftX,
               y - topLeftY,
-              glyph.getChar(),
-              glyph.getForeground(),
-              glyph.getBackground());
+              tile.getChar(),
+              tile.getForeground(),
+              tile.getBackground());
           }
         }
-        // Render the cursor
+        // Render the player
         display.draw(
-          this._centerX - topLeftX,
-          this._centerY - topLeftY,
-          '@',
-          'white',
-          'black');
+          this._player.getX() - topLeftX,
+          this._player.getY() - topLeftY,
+          this._player.getChar(),
+          this._player.getForeground(),
+          this._player.getBackground()
+        );
     },
     handleInput: function(inputType, inputData) {
         if (inputType === 'keydown') {
@@ -121,16 +127,10 @@ Game.Screen.playScreen = {
         }
     },
     move: function(dX, dY) {
-      // Positive dx means movement right
-      // negative means movement left
-      // 0 mean none
-      this._centerX = Math.max(0,
-        Math.min(this._map.getWidth() - 1, this._centerX + dX));
-      // Positive dX means movement right
-      // Negative means movement up
-      // 0 means none
-      this._centerY = Math.max(0,
-        Math.min(this._map.getHeight() - 1, this._centerY + dY));
+      var newX = this._player.getX() + dX;
+      var newY = this._player.getY() = dY;
+      //try to move to the new cell
+      this._player.tryMove(newX, newY, this._map);
     }
 }
 

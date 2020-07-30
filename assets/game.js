@@ -1,3 +1,9 @@
+Object.prototype.extend = function(a) {
+this.prototype=Object.create(a.prototype);
+this.prototype.constructor = this;
+return this;
+};
+
 var Game = {
     _display: null,
     _currentScreen: null,
