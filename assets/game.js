@@ -7,8 +7,8 @@ Function.prototype.extend = function(parent) {
 var Game = {
     _display: null,
     _currentScreen: null,
-    _screenWidth: 40,
-    _screenHeight: 14,
+    _screenWidth: 80,
+    _screenHeight: 24,
     init: function() {
         //Any necessary initialization will go here.
         this._display = new ROT.Display({

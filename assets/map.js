@@ -18,7 +18,7 @@ Game.Map.prototype.getHeight = function() {
 Game.Map.prototype.getTile = function (x, y) {
   // Make sure we are inside the bounds. If we arent, return null tile.
   if (x < 0 || x >= this._width || y < 0 || y >= this._height) {
-    return Game.Tile.nullTile;
+    return Game.nullTile;
   } else {
     return this._tiles[x][y] || Game.Tile.nullTile;
   }

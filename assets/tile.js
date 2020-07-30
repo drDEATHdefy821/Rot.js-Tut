@@ -12,7 +12,7 @@ Game.Tile.extend(Game.Glyph);
 // Standard getters
 Game.Tile.prototype.isWalkable = function() {
   return this._isWalkable;
-};
+}
 
 //var stoneArr = ["63, 63, 63", "107, 107, 107", "128, 128, 128"]
 //var stoneColor = stoneArr[Math.floor(Math.random() * arr.lenght)];

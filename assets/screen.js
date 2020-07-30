@@ -68,18 +68,18 @@ Game.Screen.playScreen = {
       var position = this._map.getRandomFloorPosition();
       this._player.setX(position.x);
       this._player.setY(position.y);
-      console.log("Generated map")
+      console.log(generator);
     },
     exit: function() { console.log("Exited play screen."); },
     render: function(display) {
         var screenWidth = Game.getScreenWidth();
         var screenHeight = Game.getScreenHeight();
         // Make sure the x-axis doesnt go to the left of the left bound
-        var topLeftX = Math.max(0, this._centerX - (screenWidth / 2));
+        var topLeftX = Math.max(0, this._player.getX() - (screenWidth / 2));
         // Make sure we still have enough space to fit an entire game screen
         topLeftX = Math.min(topLeftX, this._map.getWidth() - screenWidth);
         // Make sure the y-axis doesnt go above the top bounds
-        var topLeftY = Math.max(0, this._centerY - (screenHeight / 2));
+        var topLeftY = Math.max(0, this._player.getY - (screenHeight / 2));
         // Make sure we still have enough space to fit an entire game screen
         topLeftY = Math.min(topLeftY, this._map.getHeight() - screenHeight);
         // Iterate through all visible map cells
@@ -87,13 +87,13 @@ Game.Screen.playScreen = {
           for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
             // Fetch the glyph for the tile and render it to the screen
             // at the offset position.
-            var glyph = this._map.getTile(x, y);
+            var tile = this._map.getTile(x, y);
             display.draw(
               x - topLeftX,
               y - topLeftY,
               tile.getChar(),
               tile.getForeground(),
-              tile.getBackground());
+              tile.getBackground())
           }
         }
         // Render the player
@@ -128,7 +128,7 @@ Game.Screen.playScreen = {
     },
     move: function(dX, dY) {
       var newX = this._player.getX() + dX;
-      var newY = this._player.getY() = dY;
+      var newY = this._player.getY() + dY;
       //try to move to the new cell
       this._player.tryMove(newX, newY, this._map);
     }
