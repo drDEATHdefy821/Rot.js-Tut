@@ -1,8 +1,8 @@
-Object.prototype.extend = function(a) {
-this.prototype=Object.create(a.prototype);
-this.prototype.constructor = this;
-return this;
-};
+Function.prototype.extend = function(parent) {
+	this.prototype = Object.create(parent.prototype);
+	this.prototype.constructor = this;
+	return this;
+}
 
 var Game = {
     _display: null,

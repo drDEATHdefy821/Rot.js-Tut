@@ -27,7 +27,7 @@ Game.Entity = function(properties) {
       mixins[i].init.call(this, properties);
     }
   }
-};
+}
 // Make entities inherit all the functionality from glyphs
 Game.Entity.extend(Game.Glyph);
 
@@ -36,7 +36,7 @@ Game.Entity.prototype.hasMixin = function(obj) {
   if (typeof obj === 'object') {
     return this._attachedMixins[obj.name];
   } else {
-    return this._attachedMixins[name];
+    return this._attachedMixins[name]
   }
 }
 
