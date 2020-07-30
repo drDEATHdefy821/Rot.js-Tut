@@ -57,8 +57,10 @@ Game.Screen.playScreen = {
       generator.connect(function(x,y,v) {
         if ( v === 1) {
           map[x][y] = Game.Tile.floorTile;
+          console.log("creating floorTile");
         } else {
           map[x][y] = randWallTile[Math.floor(Math.random() * randWallTile.length)];
+          console.log("creating Wall tile");
         }
       }, 1);
       // Create our map from the tiles

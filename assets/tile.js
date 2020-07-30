@@ -17,7 +17,7 @@ Game.Tile.prototype.isWalkable = function() {
 //var stoneArr = ["63, 63, 63", "107, 107, 107", "128, 128, 128"]
 //var stoneColor = stoneArr[Math.floor(Math.random() * arr.lenght)];
 
-Game.Tile.nullTile = new Game.Tile({})
+Game.Tile.nullTile = new Game.Tile({});
 Game.Tile.floorTile = new Game.Tile({
   character: '.',
   foreground: 'rgb(53, 53, 53)',
