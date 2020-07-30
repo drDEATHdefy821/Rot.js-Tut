@@ -8,15 +8,17 @@ var Game = {
     _display: null,
     _currentScreen: null,
     _screenWidth: 80,
-    _screenHeight: 24,
+    _screenHeight: 40,
     init: function() {
         //Any necessary initialization will go here.
         this._display = new ROT.Display({
           width: this._screenWidth, height: this._screenHeight
         });
         this._display.setOptions({
-          fontSize: 30,
-          fontStyle: "bold",
+          fontSize: 20,
+          fontStyle: 'bold',
+          //fontFamily: '',
+          forceSquareRatio: true
         });
         // Create a helper function for binding to an event
         // and making it send it to the screen

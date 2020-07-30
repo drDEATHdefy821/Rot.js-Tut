@@ -6,7 +6,7 @@ Game.Screen.startScreen = {
     exit: function() { console.log("Exited start screen."); },
     render: function(display) {
         // Render our prompt to the screen
-        display.drawText(1,1, "%c{yellow}Javascript Rouguelike");
+        display.drawText(1,1, "%c{yellow}Dracsmore Depths");
         display.drawText(1,2, "Press [Enter] to start!");
     },
     handleInput: function(inputType, inputData) {
@@ -40,7 +40,7 @@ Game.Screen.playScreen = {
       var generator = new ROT.Map.Cellular(
         mapWidth, mapHeight, { connected: true}
       );
-      generator.randomize(0.55);
+      generator.randomize(0.525);
       var totalIterations = 3;
       // Iteratively smoothen the Map
       for (var i = 0; i < totalIterations - 1; i++) {
@@ -57,10 +57,8 @@ Game.Screen.playScreen = {
       generator.connect(function(x,y,v) {
         if ( v === 1) {
           map[x][y] = Game.Tile.floorTile;
-          console.log("creating floorTile");
         } else {
           map[x][y] = randWallTile[Math.floor(Math.random() * randWallTile.length)];
-          console.log("creating Wall tile");
         }
       }, 1);
       // Create our map from the tiles
@@ -70,7 +68,6 @@ Game.Screen.playScreen = {
       var position = this._map.getRandomFloorPosition();
       this._player.setX(position.x);
       this._player.setY(position.y);
-      console.log(generator);
     },
     exit: function() { console.log("Exited play screen."); },
     render: function(display) {
@@ -81,7 +78,7 @@ Game.Screen.playScreen = {
         // Make sure we still have enough space to fit an entire game screen
         topLeftX = Math.min(topLeftX, this._map.getWidth() - screenWidth);
         // Make sure the y-axis doesnt go above the top bounds
-        var topLeftY = Math.max(0, this._player.getY - (screenHeight / 2));
+        var topLeftY = Math.max(0, this._player.getY() - (screenHeight / 2));
         // Make sure we still have enough space to fit an entire game screen
         topLeftY = Math.min(topLeftY, this._map.getHeight() - screenHeight);
         // Iterate through all visible map cells
