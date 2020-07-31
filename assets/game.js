@@ -7,7 +7,7 @@ Function.prototype.extend = function(parent) {
 var Game = {
     _display: null,
     _currentScreen: null,
-    _screenWidth: 80,
+    _screenWidth: 60,
     _screenHeight: 40,
     init: function() {
         //Any necessary initialization will go here.
@@ -37,7 +37,7 @@ var Game = {
         // Bind keyboard input events
         bindEventToScreen('keydown');
         //bindEventToScreen('keyup');
-        //bindEventToScreen('keypress');
+        bindEventToScreen('keypress');
     },
 
     getDisplay: function() {

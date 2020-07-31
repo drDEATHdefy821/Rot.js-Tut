@@ -38,3 +38,30 @@ Game.Tile.wallTile3 = new Game.Tile({
   foreground: 'rgb(158, 158, 158)',
   background: 'rgb(128, 128, 128)',
 });
+Game.Tile.stairsUpTile = new Game.Tile({
+  character: '<',
+  foreground: 'white',
+  isWalkable: true
+});
+Game.Tile.stairsDownTile = new Game.Tile({
+  character: '<',
+  foreground: 'white',
+  isWalkable: true
+});
+
+// Helper function
+Game.getNeighbourPositions = function(x, y) {
+  var tiles = [];
+  // Generate all possible offsets
+  for (var dX = -1; dX < 2; dX++) {
+    for (var dY = -1; dY < 2; dY++) {
+      // Make sure it isnt the same tile
+      if (dX == 0 && dY == 0) {
+        continue;
+      }
+      tiles.push({x: x + dX, y: y + dY});
+    }
+  }
+  
+  return tiles;
+}

@@ -24,47 +24,16 @@ Game.Screen.playScreen = {
     _map: null,
     _player: null,
     enter: function() {
-      var map = [];
       // Create a map based on our size parameters
-      var mapWidth = 200;
-      var mapHeight = 200;
-      for (var x = 0; x < mapWidth; x++) {
-        // Create the nested array for the y values
-        map.push([]);
-        // Add all the tiles
-        for (var y = 0; y < mapHeight; y++) {
-          map[x].push(Game.Tile.nullTile);
-        }
-      }
-      // Setup the map generator
-      var generator = new ROT.Map.Cellular(
-        mapWidth, mapHeight, { connected: true}
-      );
-      generator.randomize(0.525);
-      var totalIterations = 3;
-      // Iteratively smoothen the Map
-      for (var i = 0; i < totalIterations - 1; i++) {
-        generator.create();
-      }
-      // Smoothen it one last time and then update our map
-      generator.create();
-
-      var randWallTile =
-      [Game.Tile.wallTile1, Game.Tile.wallTile2, Game.Tile.wallTile3];
-      //var wallTileX =
-      //randWallTile[Math.floor(Math.random() * randWallTile.length)];
-
-      generator.connect(function(x,y,v) {
-        if ( v === 1) {
-          map[x][y] = Game.Tile.floorTile;
-        } else {
-          map[x][y] = randWallTile[Math.floor(Math.random() * randWallTile.length)];
-        }
-      }, 1);
+      var width = 200;
+      var height = 200;
+      var depth = 6;
       // Create our map from the tiles and player
+      var tiles = new Game.Builder(width, height, depth).getTiles();
       this._player = new Game.Entity(Game.PlayerTemplate);
-      this._map = new Game.Map(map, this._player);
-      // Start the map's engine
+      this._map = new Game.Map(tiles, this._player);
+      //this._map = new Game.Map(tiles, this._player);
+      // Start the maps engine
       this._map.getEngine().start();
     },
     exit: function() { console.log("Exited play screen."); },
@@ -84,7 +53,7 @@ Game.Screen.playScreen = {
           for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
             // Fetch the glyph for the tile and render it to the screen
             // at the offset position.
-            var tile = this._map.getTile(x, y);
+            var tile = this._map.getTile(x, y, this._player.getZ());
             display.draw(
               x - topLeftX,
               y - topLeftY,
@@ -100,7 +69,8 @@ Game.Screen.playScreen = {
           // Only render the entity is they would show up on screen
           if (entity.getX() >= topLeftX && entity.getY() >= topLeftY &&
               entity.getX() < topLeftX + screenWidth &&
-              entity.getY() < topLeftY + screenHeight) {
+              entity.getY() < topLeftY + screenHeight &&
+              entity.getZ() == this._player.getZ()) {
               display.draw(
                 entity.getX() - topLeftX,
                 entity.getY() - topLeftY,
@@ -138,23 +108,40 @@ Game.Screen.playScreen = {
             } else {
               // movement
               if (inputData.keyCode === ROT.KEYS.VK_A) {
-                this.move(-1, 0);
+                this.move(-1, 0, 0);
               } else if (inputData.keyCode === ROT.KEYS.VK_D) {
-                this.move(1, 0);
+                this.move(1, 0, 0);
               } else if (inputData.keyCode === ROT.KEYS.VK_W) {
-                this.move(0, -1);
+                this.move(0, -1, 0);
               } else if (inputData.keyCode === ROT.KEYS.VK_S) {
-                this.move(0, 1);
+                this.move(0, 1, 0);
+              } else {
+                // Not a valid key
+                return;
               }
+              // Unlock the Engine
               this._map.getEngine().unlock();
             }
+          } else if (inputType === 'keypress') {
+            var keyChar = String.fromCharCode(inputData.charCode);
+            if (keyChar === '>') {
+              this.move(0, 0, 1);
+            } else if (keyChar === '<') {
+              this.move(0, 0, -1);
+            } else {
+              // Not a valid key
+              return;
+            }
+            // Unlock the engine
+            this._map.getEngine().unlock();
           }
         },
-    move: function(dX, dY) {
+    move: function(dX, dY, dZ) {
       var newX = this._player.getX() + dX;
       var newY = this._player.getY() + dY;
+      var newZ = this._player.getZ() + dZ;
       //try to move to the new cell
-      this._player.tryMove(newX, newY, this._map);
+      this._player.tryMove(newX, newY, newZ, this._map);
     }
 }
 
