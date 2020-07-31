@@ -12,7 +12,8 @@ var Game = {
     init: function() {
         //Any necessary initialization will go here.
         this._display = new ROT.Display({
-          width: this._screenWidth, height: this._screenHeight
+          width: this._screenWidth,
+					height: this._screenHeight + 1
         });
         this._display.setOptions({
           fontSize: 20,
