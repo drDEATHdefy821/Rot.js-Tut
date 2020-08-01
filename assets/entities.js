@@ -113,7 +113,6 @@ Game.Mixins.Attacker = {
       var defense = target.getDefenseValue();
       var max = Math.max(0, attack - defense);
       var damage = 1 + Math.floor(Math.random() * max);
-      console.log(attack, defense, max, damage);
       Game.sendMessage(this, 'You strike the %s for %d damage!',
                       [target.getName(), damage]);
       Game.sendMessage(target, 'The %s strikes you for %d damage!',
@@ -169,6 +168,17 @@ Game.Mixins.MessageRecipient = {
   }
 };
 
+Game.Mixins.Sight = {
+  name: 'Sight',
+  groupName: 'Sight',
+  init: function(template) {
+    this._sightRadius = template['sightRadius'] || 5;
+  },
+  getSightRadius: function() {
+    return this._sightRadius;
+  }
+}
+
 Game.sendMessage = function(recipient, message, args) {
   // Make sure the recipient can recive the message before doing any work.
   if (recipient.hasMixin(Game.Mixins.MessageRecipient)) {
@@ -204,9 +214,10 @@ Game.PlayerTemplate = {
   background: 'black',
   maxHp: 40,
   attackValue: 10,
+  sightRadius: 6,
   mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor,
           Game.Mixins.Attacker, Game.Mixins.Destructible,
-          Game.Mixins.MessageRecipient]
+          Game.Mixins.Sight, Game.Mixins.MessageRecipient]
 };
 
 Game.FungusTemplate = {

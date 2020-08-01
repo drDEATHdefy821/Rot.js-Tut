@@ -3,7 +3,9 @@ Game.Tile = function(properties) {
   // Call the Glyph constructor with our properties.
   Game.Glyph.call(this, properties);
   // Set up the properties. We use false by default.
-  this._isWalkable = properties['isWalkable'] || false;
+  this._isWalkable = properties['walkable'] || false;
+  this._blocksLight = (properties['blocksLight'] !== undefined) ?
+    properties['blocksLight'] : true;
 };
 
 // Make all tiles inherit all functionality from glyphs
@@ -13,6 +15,9 @@ Game.Tile.extend(Game.Glyph);
 Game.Tile.prototype.isWalkable = function() {
   return this._isWalkable;
 }
+Game.Tile.prototype.isBlockingLight = function() {
+  return this._blocksLight;
+}
 
 //var stoneArr = ["63, 63, 63", "107, 107, 107", "128, 128, 128"]
 //var stoneColor = stoneArr[Math.floor(Math.random() * arr.lenght)];
@@ -21,7 +26,8 @@ Game.Tile.nullTile = new Game.Tile({});
 Game.Tile.floorTile = new Game.Tile({
   character: '.',
   foreground: 'rgb(53, 53, 53)',
-  isWalkable: true
+  walkable: true,
+  blocksLight: false
 });
 Game.Tile.wallTile1 = new Game.Tile({
   character: '#',
@@ -41,12 +47,14 @@ Game.Tile.wallTile3 = new Game.Tile({
 Game.Tile.stairsUpTile = new Game.Tile({
   character: '<',
   foreground: 'white',
-  isWalkable: true
+  walkable: true,
+  blocksLight: false
 });
 Game.Tile.stairsDownTile = new Game.Tile({
   character: '<',
   foreground: 'white',
-  isWalkable: true
+  walkable: true,
+  blocksLight: false
 });
 
 // Helper function
@@ -62,6 +70,6 @@ Game.getNeighbourPositions = function(x, y) {
       tiles.push({x: x + dX, y: y + dY});
     }
   }
-  
+
   return tiles;
 }
