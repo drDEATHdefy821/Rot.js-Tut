@@ -25,8 +25,8 @@ Game.Screen.playScreen = {
     _player: null,
     enter: function() {
       // Create a map based on our size parameters
-      var width = 200;
-      var height = 200;
+      var width = 100;
+      var height = 100;
       var depth = 6;
       // Create our map from the tiles and player
       var tiles = new Game.Builder(width, height, depth).getTiles();
@@ -68,36 +68,35 @@ Game.Screen.playScreen = {
             if (map.isExplored(x, y, currentDepth)) {
               // Fetch the glyph for the tile and render it to the screen
               // at the offset position.
-              var tile = this._map.getTile(x, y, currentDepth);
-              display.draw(
-                x - topLeftX,
-                y - topLeftY,
-                tile.getChar(),
-                tile.getForeground(),
-                tile.getBackground())
+              var glyph = this._map.getTile(x, y, currentDepth);
+              var foreground = glyph.getForeground();
+              // If we are at a cell that is in the field of vision, we need
+              // to check if there are items or entities.
+              if (visibleCells[x + ',' + y]) {
+                // Check for items first, since we want to draw entities
+                // over items.
+                var items = map.getItemsAt(x, y, currentDepth);
+                // If we have items, we want to render the top most item
+                if (items) {
+                  glyph = items[items.length - 1];
+                }
+                // Check if we have an entity at the position
+                if (map.getEntityAt(x, y, currentDepth)) {
+                  glyph = map.getEntityAt(x, y, currentDepth);
+                }
+                // Update the foreground color in case our glyph changed
+                foreground = glyph.getForeground();
+            }
+            display.draw(
+              x - topLeftX,
+              y - topLeftY,
+              glyph.getChar(),
+              foreground,
+              glyph.getBackground());
             }
           }
         }
-        // Render the entities
-        var entities = this._map.getEntities();
-        for (var key in entities) {
-          var entity = entities[key];
-          // Only render the entity is they would show up on screen
-          if (entity.getX() >= topLeftX && entity.getY() >= topLeftY &&
-              entity.getX() < topLeftX + screenWidth &&
-              entity.getY() < topLeftY + screenHeight &&
-              entity.getZ() == this._player.getZ()) {
-              if (visibleCells[entity.getX() + ',' + entity.getY()]) {
-                display.draw(
-                  entity.getX() - topLeftX,
-                  entity.getY() - topLeftY,
-                  entity.getChar(),
-                  entity.getForeground(),
-                  entity.getBackground()
-              );
-            }
-          }
-        }
+
         // Get the messages in the player's queue and render them
         var messages = this._player.getMessages();
         var messageY = 0;

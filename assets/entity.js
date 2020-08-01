@@ -46,23 +46,23 @@ Game.Entity.prototype.hasMixin = function(obj) {
   } else {
     return this._attachedMixins[obj] || this._attachedMixinGroups[obj];
   }
-}
+};
 
 Game.Entity.prototype.setName = function(name) {
   this._name = name;
-}
+};
 Game.Entity.prototype.setX = function(x) {
   this._x = x;
-}
+};
 Game.Entity.prototype.setY = function(y) {
   this._y = y;
-}
+};
 Game.Entity.prototype.setZ = function(z) {
   this._z = z;
-}
+};
 Game.Entity.prototype.setMap = function(map) {
   this._map = map;
-}
+};
 Game.Entity.prototype.setPosition = function(x, y, z) {
   var oldX = this._x;
   var oldY = this._y;
@@ -78,19 +78,19 @@ Game.Entity.prototype.setPosition = function(x, y, z) {
 };
 Game.Entity.prototype.getName = function() {
   return this._name;
-}
+};
 Game.Entity.prototype.getX = function() {
   return this._x;
-}
+};
 Game.Entity.prototype.getY = function() {
   return this._y;
-}
+};
 Game.Entity.prototype.getZ = function() {
   return this._z;
-}
+};
 Game.Entity.prototype.getMap = function() {
   return this._map;
-}
+};
 
 Game.Entity.prototype.tryMove = function(x, y, z, map) {
   var map = this.getMap();
