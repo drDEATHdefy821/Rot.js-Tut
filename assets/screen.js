@@ -80,8 +80,8 @@ Game.Screen.playScreen = {
         }
         // Render the entities
         var entities = this._map.getEntities();
-        for (var i = 0; i < entities.length; i++) {
-          var entity = entities[i];
+        for (var key in entities) {
+          var entity = entities[key];
           // Only render the entity is they would show up on screen
           if (entity.getX() >= topLeftX && entity.getY() >= topLeftY &&
               entity.getX() < topLeftX + screenWidth &&
@@ -116,6 +116,13 @@ Game.Screen.playScreen = {
         display.drawText(0, screenHeight, stats);
     },
     handleInput: function(inputType, inputData) {
+        if (this._gameEnded) {
+          if (inputType === 'keydown' && inputData.keyCode === ROT.KEYS.VK_RETURN) {
+              Game.switchScreen(Game.Screen.loseScreen);
+        }
+        // Return to make sure the user still cant play
+        return;
+        }
         if (inputType === 'keydown') {
             //If enter is pressed, go to the Win screen
             //If escape is pressed, go to Lose screen
@@ -160,8 +167,11 @@ Game.Screen.playScreen = {
       var newZ = this._player.getZ() + dZ;
       //try to move to the new cell
       this._player.tryMove(newX, newY, newZ, this._map);
-    }
-}
+    },
+    setGameEnded: function(gameEnded) {
+      this._gameEnded = gameEnded;
+  }
+};
 
 // Define our winning screen
 Game.Screen.winScreen = {
