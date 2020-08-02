@@ -116,8 +116,8 @@ Game.Entity.prototype.tryMove = function(x, y, z, map) {
   } else if (target) {
   // An entity can only attack if the entity has the attacker mixin and
   // either the entity or the target is the player.
-    if (this.hasMixin('Attacker') && (this.hasMixin(Game.Mixins.PlayerActor) ||
-                                    target.hasMixin(Game.Mixins.PlayerActor))) {
+    if (this.hasMixin('Attacker') && (this.hasMixin(Game.EntityMixins.PlayerActor) ||
+                                    target.hasMixin(Game.EntityMixins.PlayerActor))) {
       this.attack(target);
       return true;
     }
@@ -127,10 +127,8 @@ Game.Entity.prototype.tryMove = function(x, y, z, map) {
   } else if (tile.isWalkable()) {
     // Update the entity's position
     this.setPosition(x, y, z);
-    console.log(x, y, z, this);
     // Notify the entity that there are items at this position
     var items = this.getMap().getItemsAt(x, y, z);
-    console.log(items, this);
     if (items) {
         if (items.length === 1) {
           Game.sendMessage(this, "You see %s.", [items[0].describeA()]);

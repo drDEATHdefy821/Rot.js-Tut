@@ -19,6 +19,5 @@ Game.Item.prototype.describeA = function(capitalize) {
   var firstLetter = string.charAt(0).toLowerCase();
   // If word starts by a vowel, use an, else use a. Not that this is not perfect
   var prefix = 'aeiou'.indexOf(firstLetter) >= 0 ? 1 : 0;
-  console.log(prefixes, string, firstLetter, prefix);
   return prefixes[prefix] + ' ' + string;
 };
