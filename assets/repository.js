@@ -4,13 +4,11 @@ Game.Repository = function(name, ctor) {
   this._name = name;
   this._templates = {};
   this._ctor = ctor;
-  console.log(this._templates);
 };
 
 // Define a new named template.
 Game.Repository.prototype.define = function(name, template) {
   this._templates[name] = template;
-  console.log(template);
 };
 
 // Create an object based on a template.

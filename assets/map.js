@@ -173,7 +173,6 @@ Game.Map.prototype.addEntityAtRandomPosition = function(entity, z) {
   entity.setY(position.y);
   entity.setZ(position.z);
   this.addEntity(entity);
-  console.log(entity);
 }
 
 Game.Map.prototype.removeEntity = function(entity) {
