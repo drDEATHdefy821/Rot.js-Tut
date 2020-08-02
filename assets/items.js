@@ -1,6 +1,4 @@
 // Make items inherit all the functionality from glyphs
-Game.Item.extend(Game.Glyph);
-
 Game.ItemRepository = new Game.Repository('items', Game.Item);
 
 Game.ItemRepository.define('apple', {

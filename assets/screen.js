@@ -292,7 +292,7 @@ Game.Screen.ItemListScreen.prototype.render = function(display) {
     // If we have an item, we want to render it.
     if (this._items[i]) {
       // Get the letter matching the items index
-      var letters = letters.substring(i, i + 1);
+      var letter = letters.substring(i, i + 1);
       // If we have selected an item, show a +, else show a dash between
       // the letter and the items name.
       var selectionState = (this._canSelectItem && this._canSelectMultipleItems
