@@ -44,6 +44,13 @@ Game.Tile.wallTile3 = new Game.Tile({
   foreground: 'rgb(158, 158, 158)',
   background: 'rgb(128, 128, 128)',
 });
+Game.Tile.waterTile = new Game.Tile({
+  character: '~',
+  foreground: 'rgb(128, 191, 255)',
+  background: 'rgb(51, 153, 255)',
+  walkable: false,
+  blocksLight: false
+});
 Game.Tile.stairsUpTile = new Game.Tile({
   character: '<',
   foreground: 'white',
@@ -56,7 +63,12 @@ Game.Tile.stairsDownTile = new Game.Tile({
   walkable: true,
   blocksLight: false
 });
-
+Game.Tile.holeToCavernTile = new Game.Tile({
+  character: 'O',
+  foreground: 'white',
+  walkable: true,
+  blocksLight: false,
+});
 // Helper function
 Game.getNeighbourPositions = function(x, y) {
   var tiles = [];

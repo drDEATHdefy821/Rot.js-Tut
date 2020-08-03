@@ -1,7 +1,6 @@
 Game.Map = function(tiles, player) {
   this._tiles = tiles;
-  // cache the depth, width and height based on the lenght of the dimensions of
-  // the tiles array
+  // cache the dimensions
   this._depth = tiles.length;
   this._width = tiles[0].length;
   this._height = tiles[0][0].length;
@@ -15,28 +14,6 @@ Game.Map = function(tiles, player) {
   // Create the engine and scheduler
   this._scheduler = new ROT.Scheduler.Speed();
   this._engine = new ROT.Engine(this._scheduler);
-  // add the player
-  this._player = player;
-  this.addEntityAtRandomPosition(player, 0);
-  // add random enemies and items to each floor.
-  for (var z = 0; z < this._depth; z++) {
-    // 50 entities per floor
-    for (var i = 0; i < 50; i++) {
-      // Add a random entity
-      this.addEntityAtRandomPosition(Game.EntityRepository.createRandom(), z);
-    }
-    // 40 items per floor
-    for (var i = 0; i < 40; i++) {
-      // Add a random item
-      this.addItemAtRandomPosition(Game.ItemRepository.createRandom(), z);
-    }
-  }
-  // Add weapons and armor to the map in random positions
-  var templates = ['dagger', 'sword', 'staff', 'tunic', 'chainmail', 'platemail'];
-  for (var i = 0; i < templates.length; i++) {
-    this.addItemAtRandomPosition(Game.ItemRepository.create(templates[i]),
-      Math.floor(this._depth * Math.random()));
-  }
   // Set up the explored array
   this._explored = new Array(this._depth);
   this._setupExploredArray();
@@ -174,6 +151,10 @@ Game.Map.prototype.addEntity = function(entity) {
   if (entity.hasMixin('Actor')) {
     this._scheduler.add(entity, true);
   }
+  // If the entity is the player, set the player.
+  if (entity.hasMixin(Game.EntityMixins.PlayerActor)) {
+    this._player = entity;
+  }
 };
 
 Game.Map.prototype.addEntityAtRandomPosition = function(entity, z) {
@@ -193,6 +174,10 @@ Game.Map.prototype.removeEntity = function(entity) {
   // If the entity is an actor, remove them from the scheduler
   if (entity.hasMixin('Actor')) {
     this._scheduler.remove(entity);
+  }
+  // If the entity is the player, update the player field.
+  if (entity.hasMixin(Game.EntityMixins.PlayerActor)) {
+    this._player = undefined;
   }
 };
 
