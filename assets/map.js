@@ -25,7 +25,7 @@ Game.Map = function(tiles, player) {
       this.addEntityAtRandomPosition(Game.EntityRepository.createRandom(), z);
     }
     // 40 items per floor
-    for (var i = 0; i < 40; i++) {
+    for (var i = 0; i < 200; i++) {
       // Add a random item
       this.addItemAtRandomPosition(Game.ItemRepository.createRandom(), z);
     }

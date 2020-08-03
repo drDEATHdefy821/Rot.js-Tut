@@ -9,7 +9,7 @@ Game.PlayerTemplate = {
   inventorySlots: 22,
   mixins: [Game.EntityMixins.PlayerActor,
           Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
-          Game.EntityMixins.InventoryHolder,
+          Game.EntityMixins.InventoryHolder, Game.EntityMixins.FoodConsumer,
           Game.EntityMixins.Sight, Game.EntityMixins.MessageRecipient]
 };
 
@@ -30,8 +30,8 @@ Game.EntityRepository.define('bat', {
   foreground: 'brown',
   maxHp: 5,
   attackValue: 2,
-  mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker,
-          Game.EntityMixins.Destructible]
+  mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.CorpseDropper,
+          Game.EntityMixins.Attacker, Game.EntityMixins.Destructible]
 });
 
 Game.EntityRepository.define('newt', {
@@ -41,5 +41,5 @@ Game.EntityRepository.define('newt', {
   maxHp: 3,
   attackValue: 2,
   mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker,
-          Game.EntityMixins.Destructible]
+          Game.EntityMixins.Destructible, Game.EntityMixins.CorpseDropper]
 });
