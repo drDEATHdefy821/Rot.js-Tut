@@ -86,7 +86,18 @@ Game.EntityMixins.Attacker = {
     this._attackValue = template['attackValue'] || 1;
   },
   getAttackValue: function() {
-    return this._attackValue;
+    var modifier = 0;
+    // If we can equip items, then have to take into
+    // consideration weapon and armor
+    if (this.hasMixin(Game.EntityMixins.Equipper)) {
+      if (this.getWeapon()) {
+        modifier += this.getWeapon().getAttackValue();
+      }
+      if (this.getArmor()) {
+        modifier += this.getArmor().getAttackValue()
+      }
+    }
+    return this._attackValue + modifier;
   },
   attack: function(target) {
     // If the target is Destructible, calculate the damage based on
@@ -116,7 +127,18 @@ Game.EntityMixins.Destructible = {
     this._defenseValue = template['defenseValue'] || 0;
   },
   getDefenseValue: function() {
-    return this._defenseValue;
+    var modifier = 0;
+    // If we can equip items, then we have to take into
+    // consideration weapon and armor
+    if (this.hasMixin(Game.EntityMixins.Equipper)) {
+      if (this.getWeapon()) {
+        modifier += this.getWeapon().getDefenseValue();
+      }
+      if (this.getArmor()) {
+        modifier += this.getArmor().getDefenseValue();
+      }
+    }
+    return this._defenseValue + modifier;
   },
   getHp: function() {
     return this._hp;
@@ -218,6 +240,10 @@ Game.EntityMixins.InventoryHolder = {
     return false;
   },
   removeItem: function(i) {
+    // If we can equip items, then make sure we unequip the item we are removing
+    if (this._items[i] && this.hasMixin(Game.EntityMixins.Equipper)) {
+      this.unequip(this._items[i]);
+    }
     // Simply clear the inventory slot.
     this._items[i] = null;
   },
@@ -321,6 +347,41 @@ Game.EntityMixins.CorpseDropper = {
                           name: this._name + ' corpse',
                           foreground: this._foreground
                         }));
+    }
+  }
+};
+
+Game.EntityMixins.Equipper = {
+  name: 'Equipper',
+  init: function(template) {
+    this._weapon = null;
+    this._armor = null;
+  },
+  wield: function(item) {
+    this._weapon = item;
+  },
+  unwield: function() {
+    this._weapon = null;
+  },
+  wear: function(item) {
+    this._armor = item;
+  },
+  takeOff: function() {
+    this._armor = null;
+  },
+  getWeapon: function() {
+    return this._weapon;
+  },
+  getArmor: function() {
+    return this._armor;
+  },
+  unequip: function(item) {
+    // Helper function to be called before getting rid of an item
+    if (this._weapon === item) {
+      this.unwield();
+    }
+    if (this._armour === item) {
+      this.takeOff();
     }
   }
 };
