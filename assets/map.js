@@ -13,9 +13,10 @@ Game.Map = function(tiles, player) {
   // Create a table which will hold the items
   this._items = {};
   // Create the engine and scheduler
-  this._scheduler = new ROT.Scheduler.Simple();
+  this._scheduler = new ROT.Scheduler.Speed();
   this._engine = new ROT.Engine(this._scheduler);
   // add the player
+  this._player = player;
   this.addEntityAtRandomPosition(player, 0);
   // add random enemies and items to each floor.
   for (var z = 0; z < this._depth; z++) {
@@ -62,7 +63,9 @@ Game.Map.prototype.getWidth = function() {
 Game.Map.prototype.getHeight = function() {
   return this._height;
 };
-
+Game.Map.prototype.getPlayer = function() {
+  return this._player;
+};
 // Gets the tile for a given coordinate set
 Game.Map.prototype.getTile = function (x, y, z) {
   // Make sure we are inside the bounds. If we arent, return null tile.

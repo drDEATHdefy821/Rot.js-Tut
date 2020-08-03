@@ -22,6 +22,7 @@ Game.EntityRepository.define('fungus', {
   character: 'F',
   foreground: 'rgb(7, 99, 32)',
   maxHp: 10,
+  speed: 250,
   mixins: [Game.EntityMixins.FungusActor, Game.EntityMixins.Destructible]
 });
 
@@ -30,8 +31,9 @@ Game.EntityRepository.define('bat', {
   character: 'B',
   foreground: 'brown',
   maxHp: 5,
-  attackValue: 2,
-  mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.CorpseDropper,
+  attackValue: 4,
+  speed: 2000,
+  mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.CorpseDropper,
           Game.EntityMixins.Attacker, Game.EntityMixins.Destructible]
 });
 
@@ -41,6 +43,19 @@ Game.EntityRepository.define('newt', {
   foreground: 'green',
   maxHp: 3,
   attackValue: 2,
-  mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker,
+  mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker,
           Game.EntityMixins.Destructible, Game.EntityMixins.CorpseDropper]
+});
+
+Game.EntityRepository.define('kobold', {
+  name: 'kobold',
+  character: 'k',
+  foreground: 'purple',
+  maxHp: 6,
+  attackValue: 4,
+  sightRadius: 5,
+  tasks: ['hunt', 'wander'],
+  mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight,
+          Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
+          Game.EntityMixins.CorpseDropper]
 });
