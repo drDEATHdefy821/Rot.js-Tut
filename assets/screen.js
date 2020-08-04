@@ -637,7 +637,7 @@ Game.Screen.TargetBasedScreen.prototype.render = function(display) {
   }
 
   // Render the caption at the bottom.
-  display.drawText(0, Game.getScreenHeight(), - 1,
+  display.drawText(0, Game.getScreenHeight() - 1,
     this._captionFunction(this._cursorX + this._offsetX, this._cursorY + this._offsetY));
 };
 
