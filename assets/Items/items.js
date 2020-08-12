@@ -76,6 +76,17 @@ Game.ItemRepository.define('staff', {
     disableRandomCreation: true
 });
 
+Game.ItemRepository.define('bow', {
+  name: 'bow',
+  character: ')',
+  foreground: 'brown',
+  attackValue: 5,
+  wieldable: true,
+  mixins: [Game.ItemMixins.Equippable]
+}, {
+  disableRandomCreation: true
+});
+
 // Wearables
 Game.ItemRepository.define('tunic', {
     name: 'tunic',

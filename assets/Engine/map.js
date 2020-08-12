@@ -88,7 +88,7 @@ Game.Map.prototype.setupFov = function() {
       // can pass through a given tile.
       var depth = z;
       map._fov.push(
-        new ROT.FOV.DiscreteShadowcasting(function(x, y) {
+        new ROT.FOV.RecursiveShadowcasting(function(x, y) {
           return !map.getTile(x, y, depth).isBlockingLight();
         }, {topology: 4}));
     })();
